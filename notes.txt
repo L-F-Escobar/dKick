@@ -1,0 +1,13 @@
+npm init -y
+npm i --save solc@0.4.25
+npm i --save mocha ganache-cli web3@1.0.0-beta.35
+npm install --save truffle-hdwallet-provider
+
+sudo npm install -g create-react-app
+create-react-app lottery-react
+
+
+
+// https://www.udemy.com/ethereum-and-solidity-the-complete-developers-guide/learn/v4/t/lecture/9020726?start=0
+next.js - routing, server side rendering, hot module reload
+
