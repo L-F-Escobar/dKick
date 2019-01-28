@@ -1,0 +1,2 @@
+# dKick
+A decentralized kickstarter
