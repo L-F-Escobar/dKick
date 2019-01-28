@@ -37,7 +37,6 @@ for (let contract in output) {
   );
 }
 
-
 //ADDRESS -0x3b09F23f7e8Fc85BD15Eb291CCc1c04d8504133D
 
 // // By using path we get cross platform compatability (windows/unix/etc)

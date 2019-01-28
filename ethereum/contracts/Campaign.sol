@@ -1,20 +1,6 @@
 pragma solidity ^0.4.24;
 
 
-// contract CampaignFactory {
-//     address[] public deployedCampaigns;
-
-//     function createCampaign(uint minimum) public {
-//         address newCampaign = new Campaign(minimum, msg.sender);
-//         deployedCampaigns.push(newCampaign);
-//     }
-
-//     function getDeployedCampaigns() public view returns(address[] memory) {
-//         return deployedCampaigns;
-//     }
-// }
-
-
 contract Campaign {
 
     struct Request {
@@ -25,6 +11,9 @@ contract Campaign {
         uint approvalCount;
         mapping(address => bool) approvals;
     }
+
+    string public campaignName;
+    string public campaignDescription;
 
     address public manager;
     uint public minimum_contribution;
@@ -42,10 +31,12 @@ contract Campaign {
         _;
     }
 
-    constructor(uint minimum, address creator) public {
+    constructor(uint minimum, address creator, string name, string description) public {
         // require(minimum >= 0, "Minimum must be greater than 0.");
         manager = creator;
         minimum_contribution = minimum;
+        campaignName = name;
+        campaignDescription = description;
     }
 
     function contribute() public payable _minimumContribution(){
