@@ -12,7 +12,10 @@ class CampaignNew extends Component {
         hidden: true,
         loading: false,
         name: "",
-        description: ""
+        description: "",
+        nameError: false,
+        miniContributionError: false,
+        descriptionError: false
     };
 
     handleDIsmiss = () => {
@@ -23,14 +26,58 @@ class CampaignNew extends Component {
         }, 90);
     };
 
+    handleDescription = () => {
+        if (this.state.description.length > 1 && this.state.description !== '') {
+            return false;
+        }
+        let errMsg = this.state.errorMessage + " Invalid Description value.";
+        this.setState({ errorMessage: errMsg});
+        return true;
+    };
+
+    handleContribution = () => {
+        if (this.state.minimumContribution !== '0' && this.state.minimumContribution !== '') {
+            return false;
+        }
+        let errMsg = this.state.errorMessage + " Invalid Minimum Contribution value.";
+        this.setState({ errorMessage: errMsg});
+        return true;
+    };
+
+    handleName = () => {
+        if (this.state.name.length > 1 && this.state.name !== '') {
+            return false;
+        }
+        let errMsg = this.state.errorMessage + " Invalid Name value.";
+        this.setState({ errorMessage: errMsg});
+        return true;
+    };
+
     onSubmit = async (event) => {
         event.preventDefault();
 
-        this.setState({ errorMessage: "", loading: true });
+        await this.setState({ errorMessage: "", 
+                              loading: true,
+                              miniContributionError: false,
+                              nameError: false,
+                              descriptionError: false
+        });
+
+        await this.setState({ nameError: this.handleName(),
+                              descriptionError: this.handleDescription(),
+                              miniContributionError: this.handleContribution()   
+        });
+
         // console.log('\n\nminimumContribution is:', this.state.minimumContribution, '\n\n');
+        // console.log('\n\nname is:', this.state.name, '\n\n');
+        // console.log('\n\ndescription is:', this.state.description, '\n\n');
+        console.log('\ndescriptionError is:', this.state.descriptionError, '');
+        console.log('\nnameError is:', this.state.nameError, '');
+        console.log('\nminiContributionError is:', this.state.miniContributionError, '');
+        console.log('\nerrorMessage is:', this.state.errorMessage, '');
         // console.log(typeof this.state.minimumContribution);
 
-        if (this.state.minimumContribution !== '0' && this.state.minimumContribution !== '') {
+        if (this.state.errorMessage === "") {
 
             try {
                 const accounts = await web3.eth.getAccounts();
@@ -42,7 +89,7 @@ class CampaignNew extends Component {
             }
 
         } else {
-            this.setState({ errorMessage: 'Invalid minimum contribution', hidden: false });
+            // this.setState({ errorMessage: 'Invalid minimum contribution', hidden: false });
         }
 
         this.setState({ loading: false });
