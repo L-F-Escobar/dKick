@@ -12,10 +12,13 @@ class CampaignNew extends Component {
         hidden: true,
         loading: false,
         name: "",
-        description: ""
+        description: "",
+        nameError: false,
+        miniContributionError: false,
+        descriptionError: false
     };
 
-    handleDIsmiss = () => {
+    handleDismiss = () => {
         this.setState({ hidden: false });
 
         setTimeout( () => {
@@ -23,14 +26,58 @@ class CampaignNew extends Component {
         }, 90);
     };
 
+    handleDescription = () => {
+        if (this.state.description.length > 1 && this.state.description !== '') {
+            return false;
+        }
+        let errMsg = this.state.errorMessage + "\nInvalid Description value.";
+        this.setState({ errorMessage: errMsg});
+        return true;
+    };
+
+    handleContribution = () => {
+        if (this.state.minimumContribution !== '0' && this.state.minimumContribution !== '') {
+            return false;
+        }
+        let errMsg = this.state.errorMessage + "\nInvalid Minimum Contribution value.";
+        this.setState({ errorMessage: errMsg});
+        return true;
+    };
+
+    handleName = () => {
+        if (this.state.name.length > 1 && this.state.name !== '') {
+            return false;
+        }
+        let errMsg = this.state.errorMessage + "\nInvalid Name value.";
+        this.setState({ errorMessage: errMsg});
+        return true;
+    };
+
     onSubmit = async (event) => {
         event.preventDefault();
 
-        this.setState({ errorMessage: "", loading: true });
+        await this.setState({ errorMessage: "", 
+                              loading: true,
+                              miniContributionError: false,
+                              nameError: false,
+                              descriptionError: false
+        });
+
+        await this.setState({ nameError: this.handleName(),
+                              descriptionError: this.handleDescription(),
+                              miniContributionError: this.handleContribution()   
+        });
+
         // console.log('\n\nminimumContribution is:', this.state.minimumContribution, '\n\n');
+        // console.log('\n\nname is:', this.state.name, '\n\n');
+        // console.log('\n\ndescription is:', this.state.description, '\n\n');
+        // console.log('\ndescriptionError is:', this.state.descriptionError, '');
+        // console.log('\nnameError is:', this.state.nameError, '');
+        // console.log('\nminiContributionError is:', this.state.miniContributionError, '');
+        // console.log('\nerrorMessage is:', this.state.errorMessage, '');
         // console.log(typeof this.state.minimumContribution);
 
-        if (this.state.minimumContribution !== '0' && this.state.minimumContribution !== '') {
+        if (this.state.errorMessage === "") {
 
             try {
                 const accounts = await web3.eth.getAccounts();
@@ -42,7 +89,7 @@ class CampaignNew extends Component {
             }
 
         } else {
-            this.setState({ errorMessage: 'Invalid minimum contribution', hidden: false });
+            this.setState({ hidden: false });
         }
 
         this.setState({ loading: false });
@@ -55,7 +102,7 @@ class CampaignNew extends Component {
                 <h3>Create a Campaign!</h3>
                 <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
 
-                    <Form.Field>
+                    <Form.Field error={!!this.state.nameError}>
                         <label>Name</label>
                         <Input 
                             value={this.state.name}
@@ -65,7 +112,7 @@ class CampaignNew extends Component {
                         </Input>
                     </Form.Field>
 
-                    <Form.Field error={!!this.state.errorMessage}>
+                    <Form.Field error={!!this.state.miniContributionError}>
                         <label>Minimum Contribution</label>
                         <Input 
                             label="wei" 
@@ -78,6 +125,7 @@ class CampaignNew extends Component {
                     </Form.Field>
 
                     <Form.TextArea
+                        error={!!this.state.descriptionError}
                         autoHeight
                         rows={3}
                         label="Description"
@@ -88,7 +136,7 @@ class CampaignNew extends Component {
                         }}
                     />
 
-                    <Message error hidden={this.state.hidden} header="Opps!" content={this.state.errorMessage} onDismiss={this.handleDIsmiss}></Message>
+                    <Message error hidden={this.state.hidden} header="Opps!" content={this.state.errorMessage} onDismiss={this.handleDismiss}></Message>
                     <Button loading={this.state.loading} primary={true}>Create!</Button>
                 </Form>
 
