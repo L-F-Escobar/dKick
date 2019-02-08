@@ -14,29 +14,21 @@ class CampaignIndex extends Component {
 
     static async getInitialProps() {
         const campaigns = await factory.methods.getDeployedCampaigns().call();
-
         const campaign_names = [];
+        const campaign_descriptions = [];
+        const j = campaigns.length;
 
-        campaigns.forEach( async function(address) {
-            let single_campaign = await Campaign(address);
-            let name = await single_campaign.methods.campaignName().call();
+        let single_campaign;
+        let name;
+        let description;
 
-            console.log("\nFOR EACH address", address)
-            console.log("\nFOR EACH name", name)
+        for( let i = 0; i < j; i++) {
+            single_campaign = await Campaign(campaigns[i]);
+            name = await single_campaign.methods.campaignName().call();
+
             campaign_names.push(name);
-        });
-
-        // campaigns.map( (address) => {
-        //     let single_campaign = Campaign(address);
-        //     // let name = await single_campaign.methods.campaignName().call();
-        //     let name = single_campaign.methods.campaignName().call().then( (campName) => {
-        //         console.log('campName in function: ', campName)
-        //     });
-        //     campaign_names.push(name);
-        //     console.log("\nNAME:", name);
-        //     console.log("\ncampaign_names:", campaign_names);
-        // });
-       
+            console.log(`Name at index ${i} is ${name}`);
+        }
 
         return { campaigns: campaigns, campaign_names: campaign_names };
     }
@@ -76,11 +68,11 @@ class CampaignIndex extends Component {
         // });
         // console.log("\n\nNAME:", name);
 
-        // pass a function into map() that exectures once per element in the array
         console.log("\ncampaigns ___ 666:", this.props.campaigns);
         console.log("\ncampaign_names ___ 666:", this.props.campaign_names);
 
-        const items = this.props.campaigns.map( (address) => {
+        // pass a function into map() that exectures once per element in the array
+        const items = this.props.campaigns.map( (address, index) => {
 
             // let single_campaign = Campaign(address);
             // let name = single_campaign.methods.campaignName().call().then( (name) => {
@@ -89,8 +81,10 @@ class CampaignIndex extends Component {
             // });
             // console.log("\n\nNAME:", name);
 
+            // console.log("\n\nindex:", index);
+
             return {
-                // header: this.props.campaign_names[0],
+                header: this.props.campaign_names[index],
                 meta: address,
                 description: (
                     <Link route={`/campaigns/${address}`}>
