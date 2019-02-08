@@ -7,10 +7,6 @@ import { Link } from '../routes';
 import campaign from '../ethereum/campaign.js';
 
 class CampaignIndex extends Component {
-    state = {
-        name: "TESTING FROM STATE",
-        description: []
-    };
 
     static async getInitialProps() {
         const campaigns = await factory.methods.getDeployedCampaigns().call();
@@ -25,12 +21,14 @@ class CampaignIndex extends Component {
         for( let i = 0; i < j; i++) {
             single_campaign = await Campaign(campaigns[i]);
             name = await single_campaign.methods.campaignName().call();
+            description = await single_campaign.methods.campaignDescription().call();
 
             campaign_names.push(name);
-            console.log(`Name at index ${i} is ${name}`);
+            campaign_descriptions.push(description);
+            // console.log(`Name at index ${i} is ${name}`);
         }
 
-        return { campaigns: campaigns, campaign_names: campaign_names };
+        return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions };
     }
 
 //    renderCampaigns() {
@@ -74,22 +72,19 @@ class CampaignIndex extends Component {
         // pass a function into map() that exectures once per element in the array
         const items = this.props.campaigns.map( (address, index) => {
 
-            // let single_campaign = Campaign(address);
-            // let name = single_campaign.methods.campaignName().call().then( (name) => {
-            //     console.log('name in function: ', name)
-            //     // return name;
-            // });
-            // console.log("\n\nNAME:", name);
-
             // console.log("\n\nindex:", index);
 
             return {
                 header: this.props.campaign_names[index],
                 meta: address,
-                description: (
-                    <Link route={`/campaigns/${address}`}>
-                        <a>View Campaign</a>
-                    </Link>                    
+                description: 
+                (
+                    <div>
+                        <p align="center" style={{ marginTop: 10 }}>{this.props.campaign_descriptions[index]}</p>
+                        <Link route={`/campaigns/${address}`}>                    
+                            <a>View Campaign</a>
+                        </Link>  
+                    </div> 
                 ),
                 fluid: true
             };
