@@ -1,27 +1,49 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'semantic-ui-react';
+import { Table, Button, Message } from 'semantic-ui-react';
 import web3 from '../ethereum/web3.js';
 import Campaign from '../ethereum/campaign.js';
 
 class RequestRow extends Component {
+    state ={
+        loadingApprove: false,
+        loadingFinalize: false,
+        errorMessage: "",
+        finalizeError: false,
+        approveError: false
+    };
+
     onApprove = async () => {
-        const campaign = Campaign(this.props.address);
+        this.setState({ loadingApprove: true, errorMessage: '', approveError: false });
 
-        const accounts = await web3.eth.getAccounts();
-        await campaign.methods.approveRequest(this.props.id).send({
-            from: accounts[0]
-        });
+        try {
+            const campaign = Campaign(this.props.address);
 
-        Router.replaceRoute(`/campaigns/${this.props.address}/requests`);
+            const accounts = await web3.eth.getAccounts();
+            await campaign.methods.approveRequest(this.props.id).send({
+                from: accounts[0]
+            });
+        } catch (err) {
+            this.setState({ errorMessage: err.message, approveError: true });
+        }
+
+        this.setState({ loadingApprove: false });
+        Router.reload(`/campaigns/${this.props.address}/requests`);
     };
 
     onFinalize = async () => {
-        const campaign = Campaign(this.props.address);
+        this.setState({ loadingFinalize: true, errorMessage: '', finalizeError: false });
 
-        const accounts = await web3.eth.getAccounts();
-        await campaign.methods.finalizeRequest(this.props.id).send({
-            from: accounts[0]
-        });
+        try {
+            const campaign = Campaign(this.props.address);
+            const accounts = await web3.eth.getAccounts();
+            await campaign.methods.finalizeRequest(this.props.id).send({
+                from: accounts[0]
+            });
+        } catch (err) {
+            this.setState({ errorMessage: err.message, finalizeError: true});
+        }
+        this.setState({ loadingFinalize: false });
+        Router.pushRoute(`/campaigns/${this.props.address}/requests`);
     };
 
     render() {
@@ -36,17 +58,18 @@ class RequestRow extends Component {
                 <Cell>{web3.utils.fromWei(request.value, 'ether')}</Cell>
                 <Cell>{request.recipient}</Cell>
                 <Cell>{request.approvalCount}/{approversCount} | {(request.approvalCount/approversCount).toFixed(2)}%</Cell>
-                <Cell>
+                <Cell error={this.state.approveError}>
                     {request.complete ? null : (
-                        <Button color="green" basic onClick={this.onApprove}>Approver</Button>
+                        <Button loading={this.state.loadingApprove} color="green" basic onClick={this.onApprove}>Approver</Button>
                     )}
                 </Cell>
-                <Cell>
+                <Cell error={this.state.finalizeError}>
                     {request.complete ? null : (
-                        <Button color="teal" basic onClick={this.onFinalize}>Finalize</Button>
+                        <Button loading={this.state.loadingFinalize} color="teal" basic onClick={this.onFinalize}>Finalize</Button>
                     )}
                 </Cell>
             </Row>
+            
         );
     }
 }

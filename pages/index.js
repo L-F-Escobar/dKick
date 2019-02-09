@@ -66,8 +66,8 @@ class CampaignIndex extends Component {
         // });
         // console.log("\n\nNAME:", name);
 
-        console.log("\ncampaigns ___ 666:", this.props.campaigns);
-        console.log("\ncampaign_names ___ 666:", this.props.campaign_names);
+        // console.log("\ncampaigns ___ 666:", this.props.campaigns);
+        // console.log("\ncampaign_names ___ 666:", this.props.campaign_names);
 
         // pass a function into map() that exectures once per element in the array
         const items = this.props.campaigns.map( (address, index) => {
@@ -80,7 +80,7 @@ class CampaignIndex extends Component {
                 description: 
                 (
                     <div>
-                        <p align="center" style={{ marginTop: 10 }}>{this.props.campaign_descriptions[index]}</p>
+                        <p align="center" style={{ marginTop: 10, fontSize: 15 }}>{this.props.campaign_descriptions[index]}</p>
                         <Link route={`/campaigns/${address}`}>                    
                             <a>View Campaign</a>
                         </Link>  

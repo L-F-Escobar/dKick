@@ -34,7 +34,6 @@ class CampaignShow extends Component {
             approversCount
         } = this.props;
 
-        // pass a function into map() that exectures once per element in the array
         const items = [
             {
                 header: manager,
@@ -65,7 +64,6 @@ class CampaignShow extends Component {
         ];
 
         return <Card.Group items={items}/>;
-        // <Card.Group items={items}></Card.Group>
     }
 
     render() {

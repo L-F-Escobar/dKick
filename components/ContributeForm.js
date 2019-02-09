@@ -8,7 +8,16 @@ class ContributeForm extends Component {
     state = {
         value: '',
         errorMessage: '',
-        loading: false
+        loading: false,
+        hidden: false
+    };
+
+    handleDismiss = () => {
+        this.setState({ hidden: false });
+
+        setTimeout( () => {
+            this.setState({ errorMessage: "", hidden: true })
+        }, 90);
     };
 
     onSubmit = async (event) => {
@@ -27,7 +36,11 @@ class ContributeForm extends Component {
                     });
             Router.replaceRoute(`/campaigns/${this.props.address}`);
         } catch (err) {
-            this.setState({ errorMessage: err.message });
+            if (this.state.value === "") {
+                this.setState({ errorMessage: "Enter any amount of ether to contribute" });
+            } else {
+                this.setState({ errorMessage: err.message });
+            }
         }
 
         this.setState({ loading: false, value: '' });
@@ -37,7 +50,7 @@ class ContributeForm extends Component {
     render() {
         return (
             <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
-                <Form.Field>
+                <Form.Field error={this.state.errorMessage}>
                     <label>Amount to Contribute</label>
                     <Input
                         value={this.state.value}
@@ -47,10 +60,8 @@ class ContributeForm extends Component {
                     >
                     </Input>
                 </Form.Field>    
-                <Message error header="Opps" content={this.state.errorMessage}></Message>
-                <Button primary={true} loading={this.state.loading}>
-                    Contribute!
-                </Button>           
+                <Message error header="Opps" content={this.state.errorMessage} onDismiss={this.handleDismiss}></Message>
+                <Button hidden={this.state.hidden} primary={true} loading={this.state.loading}>Contribute!</Button>           
             </Form>
         );
     }
