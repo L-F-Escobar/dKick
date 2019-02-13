@@ -18,9 +18,7 @@ export default (props) => {
                     {/* <style>{'body {background-color: white; }'}</style> */}
                     {/* <div style={body}></div> */}
                     <title>dKick</title>
-                    <icon src={'../static/DencentralizedPenguin.png'}>test</icon>
                 </Head>
-                {/* <Header/> */}
                 {props.children}
             </Container>
 

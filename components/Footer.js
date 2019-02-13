@@ -6,6 +6,7 @@ import { Link } from '../routes';
 export default () => {
     return(
        <Segment inverted vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
+
             <Container textAlign="center">
                 <Image avatar centered size='small' src={'../static/DencentralizedPenguin.png'} />
                 <div >

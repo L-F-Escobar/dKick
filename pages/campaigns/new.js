@@ -27,7 +27,8 @@ class CampaignNew extends Component {
     };
 
     handleDescription = () => {
-        if (this.state.description.length > 1 && this.state.description !== '') {
+        if (this.state.description.length > 1 && this.state.description !== '') 
+        {
             return false;
         }
         let errMsg = this.state.errorMessage + "\nInvalid Description value.";
