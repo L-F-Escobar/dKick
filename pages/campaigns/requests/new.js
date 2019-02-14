@@ -6,49 +6,49 @@ import { Link, Router } from '../../../routes.js';
 import Layout from '../../../components/Layout.js';
 
 class RequestNew extends Component {
-    state = {
-        value: '',
-        description: '',
-        recipient: '',
-        errorMessage: '',
-        loading: false
-    };
+    // state = {
+    //     value: '',
+    //     description: '',
+    //     recipient: '',
+    //     errorMessage: '',
+    //     loading: false
+    // };
     
-    static async getInitialProps(props) {
-        const { address } = props.query;
+    // static async getInitialProps(props) {
+    //     const { address } = props.query;
 
-        return { address: address };
-    }
+    //     return { address: address };
+    // }
 
-    onSubmit = async event => {
-        event.preventDefault();
+    // onSubmit = async event => {
+    //     event.preventDefault();
 
-        this.setState({ loading: true, errorMessage: '' });
+    //     this.setState({ loading: true, errorMessage: '' });
 
-        const campaign = Campaign(this.props.address);
-        try{
-            const accounts = await web3.eth.getAccounts();
+    //     const campaign = Campaign(this.props.address);
+    //     try{
+    //         const accounts = await web3.eth.getAccounts();
 
-            await campaign.methods.createRequest(
-                this.state.description, 
-                web3.utils.toWei(this.state.value, 'ether'), 
-                this.state.recipient)
-            .send({
-                from: accounts[0]
-            });
+    //         await campaign.methods.createRequest(
+    //             this.state.description, 
+    //             web3.utils.toWei(this.state.value, 'ether'), 
+    //             this.state.recipient)
+    //         .send({
+    //             from: accounts[0]
+    //         });
             
-            // Router.pushRoute(`/campaigns/${this.props.address}/requests`);
-            Router.replaceRoute(`/campaigns/${this.props.address}/requests`);
-        } catch(err) {
-            this.setState({ errorMessage: err.message });
-        }
-        this.setState({ loading: false });
-    };
+    //         // Router.pushRoute(`/campaigns/${this.props.address}/requests`);
+    //         Router.replaceRoute(`/campaigns/${this.props.address}/requests`);
+    //     } catch(err) {
+    //         this.setState({ errorMessage: err.message });
+    //     }
+    //     this.setState({ loading: false });
+    // };
 
     render() {
         return(
             <Layout>
-                <div>
+                {/* <div>
                 <Link route={`/campaigns/${this.props.address}/requests`}>
                     <a>Back</a>
                 </Link>
@@ -82,7 +82,7 @@ class RequestNew extends Component {
                     <Button primary loading={this.state.loading}>Create!</Button>
 
                 </Form>
-                </div>
+                </div> */}
             </Layout>
         );
     }

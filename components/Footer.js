@@ -5,7 +5,7 @@ import { Link } from '../routes';
 
 export default () => {
     return(
-       <Segment inverted vertical style={{ margin: '15em 0em 0em', padding: '5em 0em' }}>
+       <Segment inverted vertical style={{ margin: '20em 0em 0em', padding: '5em 0em' }}>
 
             <Container textAlign="center">
                 <Image avatar centered size='small' src='../static/dPen.png' alt=" "/>

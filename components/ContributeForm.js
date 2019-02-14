@@ -50,7 +50,7 @@ class ContributeForm extends Component {
     render() {
         return (
             <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
-                <Form.Field error={this.state.errorMessage}>
+                <Form.Field error={!!this.state.errorMessage}>
                     <label>Amount to Contribute</label>
                     <Input
                         value={this.state.value}
