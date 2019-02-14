@@ -48,6 +48,7 @@ class RequestNew extends Component {
     render() {
         return(
             <Layout>
+                <div>
                 <Link route={`/campaigns/${this.props.address}/requests`}>
                     <a>Back</a>
                 </Link>
@@ -81,6 +82,7 @@ class RequestNew extends Component {
                     <Button primary loading={this.state.loading}>Create!</Button>
 
                 </Form>
+                </div>
             </Layout>
         );
     }

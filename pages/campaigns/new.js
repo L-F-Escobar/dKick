@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Layout from '../../components/Layout.js'
-import { Form, Button, Input, Message, TextArea } from 'semantic-ui-react';
+import { Form, Button, Input, Message } from 'semantic-ui-react';
 import factory from '../../ethereum/factory.js'; 
 import web3 from '../../ethereum/web3.js';
 import { Router } from '../../routes';

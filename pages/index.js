@@ -4,7 +4,6 @@ import Campaign from '../ethereum/campaign.js';
 import { Card, Button } from 'semantic-ui-react';
 import Layout from '../components/Layout.js';
 import { Link } from '../routes';
-import campaign from '../ethereum/campaign.js';
 
 class CampaignIndex extends Component {
 

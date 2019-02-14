@@ -5,21 +5,35 @@ import { Link } from '../routes';
 
 export default () => {
     return(
-       <Segment inverted vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
+       <Segment inverted vertical style={{ margin: '15em 0em 0em', padding: '5em 0em' }}>
 
             <Container textAlign="center">
-                <Image avatar centered size='small' src={'../static/DencentralizedPenguin.png'} />
-                <div >
-                    <List horizontal inverted divided link size='small'>
-                        <Link route="/">
-                            <a>About Us</a>
-                        </Link>
-                        {/* <List.Item as='a'>
-                            About Us
-                        </List.Item> */}
+                <Image avatar centered size='small' src='../static/dPen.png' alt=" "/>
+                <div style={{ marginTop: '10px' }}>
+                    <List horizontal inverted divided  size='small'>
+                        <List.Item>
+                            <Link route="/">
+                                <a>About Us</a>
+                            </Link>
+                        </List.Item>
+
+                        <List.Item>
+                            <Link route="/">
+                                <a>Contact Us</a>
+                            </Link>
+                        </List.Item>
+                        
+
+                        <List.Item>
+                            <Link route="/">
+                                <a>Team</a>
+                            </Link>
+                        </List.Item>
+                        
                     </List>
                 </div>
             </Container>        
+
        </Segment>
     );  
 };

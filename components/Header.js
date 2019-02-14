@@ -10,7 +10,7 @@ export default () => {
                 <Link route="/">
                     <a>
                         <div>
-                            <Image avatar size="mini" src={'../static/DencentralizedPenguin.png'} style={{ marginRight: '20px' }}></Image>
+                            <Image alt=" " avatar size="mini" src='../static/dPen.png' style={{ marginRight: '20px' }}></Image>
                             <span>Decentralized Kickstarter</span>
                         </div>
                     </a>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Message } from 'semantic-ui-react';
+import { Table, Button } from 'semantic-ui-react';
 import web3 from '../ethereum/web3.js';
 import Campaign from '../ethereum/campaign.js';
 
@@ -27,7 +27,7 @@ class RequestRow extends Component {
         }
 
         this.setState({ loadingApprove: false });
-        Router.reload(`/campaigns/${this.props.address}/requests`);
+        Router.replaceRoute(`/campaigns/${this.props.address}/requests`);
     };
 
     onFinalize = async () => {
@@ -43,7 +43,7 @@ class RequestRow extends Component {
             this.setState({ errorMessage: err.message, finalizeError: true});
         }
         this.setState({ loadingFinalize: false });
-        Router.pushRoute(`/campaigns/${this.props.address}/requests`);
+        Router.replaceRoute(`/campaigns/${this.props.address}/requests`);
     };
 
     render() {
@@ -69,7 +69,6 @@ class RequestRow extends Component {
                     )}
                 </Cell>
             </Row>
-            
         );
     }
 }
