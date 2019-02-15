@@ -4,13 +4,14 @@ const Web3 = require('web3');
 const campaignFactory = require('./build/CampaignFactory.json');
 const fs = require('fs-extra');
 const path = require('path');
+import Seed from '../secrets/seed.json';
 
 const buildPath = path.resolve(__dirname, 'build');
 
 //@dev Using Infuria node and Chrome metamask rinkeby wallet.
 const provider = new HDWalletProvider(
-    'crane soap simple disorder glue normal cute faint height catch farm glue',
-    'https://rinkeby.infura.io/v3/746710de21c14a2aa6516d69dbd8246e'
+    Seed["meta-mask-mnemonic"],
+    `https://rinkeby.infura.io/v3/${Seed["rinkeby-project-id"]}` 
 );
 const web3 = new Web3(provider);
 
