@@ -8,16 +8,18 @@ import { Link } from '../routes';
 class CampaignIndex extends Component {
 
     static async getInitialProps() {
+        const t0 = performance.now();
+
         const campaigns = await factory.methods.getDeployedCampaigns().call();
         const campaign_names = [];
         const campaign_descriptions = [];
-        const j = campaigns.length;
+        // const j = campaigns.length;
 
         let single_campaign;
         let name;
         let description;
 
-        for( let i = 0; i < j; i++) {
+        for( let i = 0; i < campaigns.length; i++) {
             single_campaign = await Campaign(campaigns[i]);
             name = await single_campaign.methods.campaignName().call();
             description = await single_campaign.methods.campaignDescription().call();
@@ -27,7 +29,11 @@ class CampaignIndex extends Component {
             // console.log(`Name at index ${i} is ${name}`);
         }
 
-        return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions };
+        const t1 = performance.now();
+        const timerResult = t1 - t0;
+        console.log("\n\nCall to getInitialProps took " + (t1 - t0) + " milliseconds.");
+
+        return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions, timerResult: timerResult };
     }
 
 //    renderCampaigns() {
@@ -109,6 +115,7 @@ class CampaignIndex extends Component {
                     </Link>
                     {this.renderCampaigns()}
                 </div>
+                <h2>Call to getInitialProps took {this.props.timerResult} milliseconds</h2>
             </Layout>
         );
     }
