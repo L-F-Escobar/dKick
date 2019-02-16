@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "dev_first": "next dev",
+    "start": "mext start -p $PORT",
+    "heroku-postbuild": "next build",
     "dev": "node server.js"
   },
   "keywords": [],
