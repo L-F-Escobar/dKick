@@ -4,3 +4,4 @@ secrets
 .**/
 .next
 \.next
+Kickstart/\.next/
