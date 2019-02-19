@@ -3,3 +3,4 @@ secrets
 .next/
 .**/
 .next
+\.next
