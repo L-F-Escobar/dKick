@@ -1,7 +1,5 @@
 node_modules
 secrets
-.next/
-.**/
-.next
-\.next
+
+\.next/
 Kickstart/\.next/
