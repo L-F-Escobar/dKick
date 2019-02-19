@@ -8,12 +8,12 @@ export default () => {
         <Menu fixed='top' inverted>
             <Menu.Item as="a" header>
                 <Link route="/" as="a">
-                    {/* <a> */}
+                    <a>
                         <div>
                             <Image alt=" " avatar size="mini" src='../static/dPen.png' style={{ marginRight: '20px' }}></Image>
                             <span>Decentralized Kickstarter</span>
                         </div>
-                    {/* </a> */}
+                    </a>
                 </Link>
             </Menu.Item>
 

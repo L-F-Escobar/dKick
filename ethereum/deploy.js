@@ -4,14 +4,14 @@ const Web3 = require('web3');
 const campaignFactory = require('./build/CampaignFactory.json');
 const fs = require('fs-extra');
 const path = require('path');
-import Seed from '../secrets/seed.json';
+const seed = require('../secrets/seed.json');
 
 const buildPath = path.resolve(__dirname, 'build');
 
 //@dev Using Infuria node and Chrome metamask rinkeby wallet.
 const provider = new HDWalletProvider(
-    Seed["meta-mask-mnemonic"],
-    `https://rinkeby.infura.io/v3/${Seed["rinkeby-project-id"]}` 
+    seed["metaMaskMnemonic"],
+    `https://rinkeby.infura.io/v3/${seed["rinkebyProjectId"]}` 
 );
 const web3 = new Web3(provider);
 
@@ -24,7 +24,7 @@ const deploy = async () => {
         .deploy({ data: '0x' + campaignFactory.bytecode})
         .send({ from: accounts[0], gas: '5000000' });
     
-    makeAddressFile(result);
+    // makeAddressFile(result);
 
     console.log('Interface:', campaignFactory.interface);
     console.log('\nContract deployed to:', result.options.address);

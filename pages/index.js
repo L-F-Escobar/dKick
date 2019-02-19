@@ -5,10 +5,10 @@ import { Card, Button } from 'semantic-ui-react';
 import Layout from '../components/Layout.js';
 import { Link } from '../routes';
 
+
 class CampaignIndex extends Component {
 
     static async getInitialProps() {
-        const t0 = performance.now();
 
         const campaigns = await factory.methods.getDeployedCampaigns().call();
         const campaign_names = [];
@@ -29,11 +29,7 @@ class CampaignIndex extends Component {
             // console.log(`Name at index ${i} is ${name}`);
         }
 
-        const t1 = performance.now();
-        const timerResult = t1 - t0;
-        console.log("\n\nCall to getInitialProps took " + (t1 - t0) + " milliseconds.");
-
-        return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions, timerResult: timerResult };
+        return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions };
     }
 
 //    renderCampaigns() {
@@ -115,7 +111,7 @@ class CampaignIndex extends Component {
                     </Link>
                     {this.renderCampaigns()}
                 </div>
-                <h2>Call to getInitialProps took {this.props.timerResult} milliseconds</h2>
+                {/* <h2>Call to getInitialProps took {this.props.timerResult} milliseconds</h2> */}
             </Layout>
         );
     }

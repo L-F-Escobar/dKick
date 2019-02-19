@@ -86,7 +86,13 @@ class CampaignNew extends Component {
                         .send({ from: accounts[0] });
                 Router.pushRoute('/');
             } catch (err) { 
-                this.setState({ errorMessage: err.message, hidden: false });
+                if(err.message !== `No "from" address specified in neither the given options, nor the default options.`)
+                {
+                    this.setState({ errorMessage: err.message, hidden: false });
+                } else {
+                    this.setState({ errorMessage: "Must install MetaMask extension.", hidden: false });
+                }
+                
             }
 
         } else {
