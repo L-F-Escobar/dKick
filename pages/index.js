@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import factory from '../ethereum/factory.js';
+import { factoryInstance, web3Errors } from '../ethereum/factory.js';
 import Campaign from '../ethereum/campaign.js';
 import { Card, Button } from 'semantic-ui-react';
 import Layout from '../components/Layout.js';
@@ -7,10 +7,13 @@ import { Link } from '../routes';
 
 
 class CampaignIndex extends Component {
+    state = {
+        web3Errors : web3Errors
+    };
 
     static async getInitialProps() {
 
-        const campaigns = await factory.methods.getDeployedCampaigns().call();
+        const campaigns = await factoryInstance.methods.getDeployedCampaigns().call();
         const campaign_names = [];
         const campaign_descriptions = [];
         // const j = campaigns.length;
@@ -29,24 +32,10 @@ class CampaignIndex extends Component {
             // console.log(`Name at index ${i} is ${name}`);
         }
 
+        console.log("PAGES/LANDING web3Errors:", web3Errors);
+
         return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions };
     }
-
-//    renderCampaigns() {
-//         // pass a function into map() that exectures once per element in the array
-//         const items = this.props.campaigns.map( (address) => {
-//             return {
-//                 header: address,
-//                 description: (
-//                     <Link route={`/campaigns/${address}`}>
-//                         <a>View Campaign</a>
-//                     </Link>                    
-//                 ),
-//                 fluid: true
-//             };
-//         });
-//         return <Card.Group items={items} />;
-//     }
 
     renderCampaigns = () => {
         // const items = new Array();
@@ -96,8 +85,10 @@ class CampaignIndex extends Component {
 
     render() {
         return(
-            <Layout>
+            <Layout {...this.state.web3Errors}>
                 <div>
+                    {/* <h2>Web3 missingMetaMask --> {this.state.web3Errors.missingMetaMask.toString()}</h2>
+                    <h2>Web3 signatureError --> {this.state.web3Errors.signatureError.toString()}</h2> */}
                     <h3>Open Campaigns</h3>
                     <Link route="/campaigns/new">
                         <a>

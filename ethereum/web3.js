@@ -3,7 +3,7 @@ const seed = require('../secrets/seed.json');
 
 let web3;
 
-let errors = {
+let web3Errors = {
     signatureError: false,
     missingMetaMask: false
 }
@@ -15,11 +15,11 @@ if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
 
     window.ethereum.enable()
     .then( function (accounts) {
-        console.log("accounts", accounts);
+        console.log("MetaMask Signature Enabled");
     })
     .catch(function (reason) {
-        console.log("User rejected provider access:", reason);
-        errors.signatureError = true;
+        console.log("MetaMask Signature Disabled", reason);
+        web3Errors.signatureError = true;
     });
 
     console.log('metamask enabled:', window.ethereum.isMetaMask);
@@ -35,11 +35,11 @@ if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
 
     console.log('infura enabled!');
     console.log(`rinkebyProjectId[""]): ${seed["rinkebyProjectId"]}`);
-    errors.missingMetaMask = true;
+    web3Errors.missingMetaMask = true;
 }
 
 // export default web3;
 export {
-    errors,
+    web3Errors,
     web3
 };

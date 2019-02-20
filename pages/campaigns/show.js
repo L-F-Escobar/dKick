@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Layout from "../../components/Layout.js";
 import Campaign from "../../ethereum/campaign.js";
 import { Card, Grid, Button } from 'semantic-ui-react';
-import web3 from '../../ethereum/web3.js'
+import { web3 } from '../../ethereum/web3.js'
 import ContributeForm from "../../components/ContributeForm.js";
 import { Link } from '../../routes.js'
 

@@ -19,6 +19,8 @@ export default (props) => {
                     {/* <div style={body}></div> */}
                     <title>dKick</title>
                 </Head>
+                {/* <h3>Am in Layout testing missingMetaMask --> {props.missingMetaMask.toString()}</h3> */}
+                {/* <h3>Am in Layout testing signatureError --> {props.signatureError.toString()}</h3> */}
                 {props.children}
             </Container>
 
