@@ -102,7 +102,6 @@ class CampaignIndex extends Component {
                     </Link>
                     {this.renderCampaigns()}
                 </div>
-                {/* <h2>Call to getInitialProps took {this.props.timerResult} milliseconds</h2> */}
             </Layout>
         );
     }

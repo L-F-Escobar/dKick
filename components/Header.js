@@ -11,7 +11,7 @@ export default () => {
                     <a>
                         <div>
                             <Image alt=" " avatar size="mini" src='../static/dPen.png' style={{ marginRight: '20px' }}></Image>
-                            <span>Decentralized Kickstarter</span>
+                            <b>Decentralized Kickstarter</b>
                         </div>
                     </a>
                 </Link>

@@ -42,4 +42,13 @@ if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
 export {
     web3Errors,
     web3
-};
+}
+
+export async function getConnection() {
+    try {
+        await window.ethereum.enable();
+    } catch (err) {
+        console.log("Errror:", err.error)
+    }
+}
+
