@@ -6,25 +6,8 @@ import { Container, Popup, Button, Image, Message } from 'semantic-ui-react';
 import { Link } from '../routes';
 import { web3 } from '../ethereum/web3.js'
 
-
-// onFinalize = async () => {
-//     // this.setState({ loadingFinalize: true, errorMessage: '', finalizeError: false });
-
-//     try {
-//         // const campaign = Campaign(this.props.address);
-//         // const accounts = await web3.eth.getAccounts();
-//         // await campaign.methods.finalizeRequest(this.props.id).send({
-//         //     from: accounts[0]
-//         // });
-//         console.log('IN TRY LAYOUT.JS')
-//     } catch (err) {
-//         // this.setState({ errorMessage: err.message, finalizeError: true});
-//     }
-//     this.setState({ loadingFinalize: false });
-//     // Router.replaceRoute(`/campaigns/${this.props.address}/requests`);
-// };
-
 export default (props) => {
+
     return(
         <div>
             
@@ -36,9 +19,9 @@ export default (props) => {
                     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.1/dist/semantic.min.css"/>
                     <link rel="icon" type="image/x-icon" href="../static/favicon.ico" />
                     <title>dKick</title>
-                </Head>
+                </Head> 
 
-                {!props.missingMetaMask ? null : (
+                {/* {props.missingMetaMask ? null : (
                     <div>
                         <h3 align="center">Metamask required! Website may not function as intended.</h3>
                         <Popup
@@ -64,7 +47,7 @@ export default (props) => {
                     </div>
                 )}
 
-                {!props.signatureError ? null : (
+                {props.signatureError ? null : (
                     <div>
                         <h3 align="center">Metamask connection required!</h3>
                         <Popup
@@ -83,15 +66,15 @@ export default (props) => {
                         >
                         </Popup>
                     </div>
-                )} 
+                )}  */}
 
-                <div style={{ marginTop: '50px' }}>
-                </div> 
+                {/* <div style={{ marginTop: '50px' }}></div>  */}
                 
 
                 {/* <h3>Am in Layout testing missingMetaMask --> {props.missingMetaMask.toString()}</h3>
                 <h3>Am in Layout testing signatureError --> {props.signatureError.toString()}</h3> */}
                 {props.children}
+
             </Container>
 
             <Footer/>

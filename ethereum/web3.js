@@ -47,6 +47,7 @@ export {
 export async function getConnection() {
     try {
         await window.ethereum.enable();
+        web3Errors.signatureError = false;
     } catch (err) {
         console.log("Errror:", err.error)
     }

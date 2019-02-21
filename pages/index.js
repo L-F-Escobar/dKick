@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { factoryInstance, web3Errors } from '../ethereum/factory.js';
 import Campaign from '../ethereum/campaign.js';
-import { Card, Button } from 'semantic-ui-react';
+import { Card, Button, Popup, Image } from 'semantic-ui-react';
 import Layout from '../components/Layout.js';
 import { Link } from '../routes';
+import { getConnection } from '../ethereum/web3.js'
 
 
 class CampaignIndex extends Component {
@@ -34,7 +35,7 @@ class CampaignIndex extends Component {
 
         console.log("PAGES/LANDING web3Errors:", web3Errors);
 
-        return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions };
+        return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions, web3Errors: web3Errors };
     }
 
     renderCampaigns = () => {
@@ -83,9 +84,98 @@ class CampaignIndex extends Component {
         return <Card.Group items={items} />;
     }
 
+    // displayMetaMaskMissingError = async () => {
+    //     await this.setState({ web3Errs: web3Errors });
+    //     let mmerros =  await this.state.web3Errs;
+    //     console.log("let mmerros =  await this.state.web3Errs:", mmerros);
+    //     return (
+    //         !this.state.web3Errs.missingMetaMask ? null : (
+    //             <div>
+    //                 <h3 align="center">Metamask required! Website may not function as intended.</h3>
+    //                 <Popup
+    //                     // on="click"
+    //                     // open={"false"}
+    //                     header="Metamask"
+    //                     size="small" 
+    //                     content="Metamask is required to access the Ethereum network." 
+    //                     trigger={
+    //                         <div>
+    //                             <Link >
+    //                                 <a href={"https://metamask.io/"} target="_blank">
+    //                                     <Button fluid negative content="Get metamask">
+    //                                         <Image avatar src="../static/metamask.png"></Image>
+    //                                         Get Metamask extension
+    //                                     </Button>
+    //                                 </a>
+    //                             </Link>
+    //                         </div>
+    //                     } 
+    //                 >
+    //                 </Popup>
+    //             </div>
+    //         )
+    //     );
+    // }
+
     render() {
         return(
-            <Layout {...this.state.web3Errors}>
+            <Layout {...this.state.web3Errs}>
+                {/* {this.displayMetaMaskMissingError} */}
+
+                <div style={{ hidden: !this.state.web3Errors.missingMetaMask ? 'visible': 'hidden'}}>
+                    {!this.state.web3Errors.missingMetaMask ? null : (
+                        <div>
+                            <h3 align="center">Metamask required! Website may not function as intended.</h3>
+                            <Popup
+                                // on="click"
+                                // open={"false"}
+                                hidden={!this.state.web3Errors.missingMetaMask}
+                                header="Metamask"
+                                size="small" 
+                                content="Metamask is required to access the Ethereum network." 
+                                trigger={
+                                    <div>
+                                        <Link >
+                                            <a href={"https://metamask.io/"} target="_blank">
+                                                <Button fluid negative content="Get metamask">
+                                                    <Image avatar src="../static/metamask.png"></Image>
+                                                    Get Metamask extension
+                                                </Button>
+                                            </a>
+                                        </Link>
+                                    </div>
+                                } 
+                            >
+                            </Popup>
+                        </div>
+                    )}
+                </div>
+
+                {/* <div>
+                    {!this.state.web3Errors.signatureError ? null : (
+                        <div>
+                            <h3 align="center">Metamask connection required!</h3>
+                            <Popup
+                                header="Metamask Connection"
+                                size="small" 
+                                content="Metamask connection needed. " 
+                                isOpen="false"
+                                trigger={
+                                    <div>
+                                        <Button onClick={getConnection} fluid negative content="Metamask connection" >
+                                            <Image avatar src="../static/metamask.png"></Image>
+                                            Request Metamask connection
+                                        </Button>
+                                    </div>
+                                } 
+                            >
+                            </Popup>
+                        </div>
+                    )} 
+                </div> */}
+
+                <div style={{ marginTop: '50px' }}></div>
+
                 <div>
                     {/* <h2>Web3 missingMetaMask --> {this.state.web3Errors.missingMetaMask.toString()}</h2>
                     <h2>Web3 signatureError --> {this.state.web3Errors.signatureError.toString()}</h2> */}
