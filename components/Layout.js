@@ -4,14 +4,14 @@ import Footer from './Footer.js';
 import Head from 'next/head';
 import { Container, Popup, Button, Image, Message } from 'semantic-ui-react';
 import { Link } from '../routes';
-import { web3 } from '../ethereum/web3.js'
+import { web3 } from '../ethereum/web3.js';
+import SignatureError from "./SignatureError.js";
 
 export default (props) => {
 
     return(
-        <div>
-            
-            <Header/>
+        <div>            
+            <Header/>            
             
             <Container style={{ marginTop: '100px' }}>
 
@@ -19,9 +19,9 @@ export default (props) => {
                     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.1/dist/semantic.min.css"/>
                     <link rel="icon" type="image/x-icon" href="../static/favicon.ico" />
                     <title>dKick</title>
-                </Head> 
+                </Head>
 
-                {/* {props.missingMetaMask ? null : (
+                {/* {!props.missingMetaMask ? null : (
                     <div>
                         <h3 align="center">Metamask required! Website may not function as intended.</h3>
                         <Popup
@@ -45,9 +45,9 @@ export default (props) => {
                         >
                         </Popup>
                     </div>
-                )}
+                )} */}
 
-                {props.signatureError ? null : (
+                {/* {props.signatureError ? null : (
                     <div>
                         <h3 align="center">Metamask connection required!</h3>
                         <Popup
@@ -68,7 +68,7 @@ export default (props) => {
                     </div>
                 )}  */}
 
-                {/* <div style={{ marginTop: '50px' }}></div>  */}
+                <div style={{ marginTop: '50px' }}></div> 
                 
 
                 {/* <h3>Am in Layout testing missingMetaMask --> {props.missingMetaMask.toString()}</h3>

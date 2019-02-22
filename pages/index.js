@@ -4,7 +4,8 @@ import Campaign from '../ethereum/campaign.js';
 import { Card, Button, Popup, Image } from 'semantic-ui-react';
 import Layout from '../components/Layout.js';
 import { Link } from '../routes';
-import { getConnection } from '../ethereum/web3.js'
+import { getConnection } from '../ethereum/web3.js';
+import SignatureError from '../components/SignatureError.js';
 
 
 class CampaignIndex extends Component {
@@ -35,7 +36,7 @@ class CampaignIndex extends Component {
 
         console.log("PAGES/LANDING web3Errors:", web3Errors);
 
-        return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions, web3Errors: web3Errors };
+        return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions };
     }
 
     renderCampaigns = () => {
@@ -84,45 +85,11 @@ class CampaignIndex extends Component {
         return <Card.Group items={items} />;
     }
 
-    // displayMetaMaskMissingError = async () => {
-    //     await this.setState({ web3Errs: web3Errors });
-    //     let mmerros =  await this.state.web3Errs;
-    //     console.log("let mmerros =  await this.state.web3Errs:", mmerros);
-    //     return (
-    //         !this.state.web3Errs.missingMetaMask ? null : (
-    //             <div>
-    //                 <h3 align="center">Metamask required! Website may not function as intended.</h3>
-    //                 <Popup
-    //                     // on="click"
-    //                     // open={"false"}
-    //                     header="Metamask"
-    //                     size="small" 
-    //                     content="Metamask is required to access the Ethereum network." 
-    //                     trigger={
-    //                         <div>
-    //                             <Link >
-    //                                 <a href={"https://metamask.io/"} target="_blank">
-    //                                     <Button fluid negative content="Get metamask">
-    //                                         <Image avatar src="../static/metamask.png"></Image>
-    //                                         Get Metamask extension
-    //                                     </Button>
-    //                                 </a>
-    //                             </Link>
-    //                         </div>
-    //                     } 
-    //                 >
-    //                 </Popup>
-    //             </div>
-    //         )
-    //     );
-    // }
-
     render() {
         return(
-            <Layout {...this.state.web3Errs}>
-                {/* {this.displayMetaMaskMissingError} */}
-
-                <div style={{ hidden: !this.state.web3Errors.missingMetaMask ? 'visible': 'hidden'}}>
+            <Layout {...this.state.web3Errors}>
+                <SignatureError {...this.state.web3Errors.missingMetaMask}/>
+                {/* <div style={{ visibility: !this.state.web3Errors.missingMetaMask ? 'visible': 'hidden'}}>test {this.state.web3Errors.missingMetaMask.toString()}
                     {!this.state.web3Errors.missingMetaMask ? null : (
                         <div>
                             <h3 align="center">Metamask required! Website may not function as intended.</h3>
@@ -149,7 +116,7 @@ class CampaignIndex extends Component {
                             </Popup>
                         </div>
                     )}
-                </div>
+                </div> */}
 
                 {/* <div>
                     {!this.state.web3Errors.signatureError ? null : (
@@ -172,9 +139,8 @@ class CampaignIndex extends Component {
                             </Popup>
                         </div>
                     )} 
-                </div> */}
-
-                <div style={{ marginTop: '50px' }}></div>
+                </div>
+                <div style={{ marginTop: '50px' }}></div> */}
 
                 <div>
                     {/* <h2>Web3 missingMetaMask --> {this.state.web3Errors.missingMetaMask.toString()}</h2>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'semantic-ui-react';
-import web3 from '../ethereum/web3.js';
+import { web3 } from '../ethereum/web3.js';
 import Campaign from '../ethereum/campaign.js';
 
 class RequestRow extends Component {

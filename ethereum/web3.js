@@ -25,8 +25,8 @@ if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
     console.log('metamask enabled:', window.ethereum.isMetaMask);
     console.log('selected address::', window.ethereum.selectedAddress);
     // console.log('selected address::', web3.eth.getAccounts);
-}
- else {
+} 
+else {
     
     const provider = new Web3.providers.HttpProvider(
         `https://rinkeby.infura.io/v3/${seed["rinkebyProjectId"]}` 
