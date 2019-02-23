@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
 import { factoryInstance, web3Errors } from '../ethereum/factory.js';
 import Campaign from '../ethereum/campaign.js';
-import { Card, Button, Popup, Image } from 'semantic-ui-react';
+import { Card, Button, Popup, Image, Dimmer, Header, Icon } from 'semantic-ui-react';
 import Layout from '../components/Layout.js';
 import { Link } from '../routes';
-import { getConnection } from '../ethereum/web3.js';
+import { getConnection } from "../ethereum/web3.js";
 import SignatureError from '../components/SignatureError.js';
 
 
 class CampaignIndex extends Component {
     state = {
-        web3Errors : web3Errors
+        web3Errors : web3Errors,
+        loading: false
     };
 
     static async getInitialProps() {
@@ -34,7 +35,7 @@ class CampaignIndex extends Component {
             // console.log(`Name at index ${i} is ${name}`);
         }
 
-        console.log("PAGES/LANDING web3Errors:", web3Errors);
+        console.log("\n\nPAGES/LANDING web3Errors:", web3Errors);
 
         return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions };
     }
@@ -85,10 +86,43 @@ class CampaignIndex extends Component {
         return <Card.Group items={items} />;
     }
 
+
+    handleOutside = () => {
+        // let web3error = {...this.state.web3Errors};
+        // web3error['signatureError'] = false;
+        // await getConnection();
+        // console.log("\n\nBEFORE handleOutside web3Errors:", this.state.web3Errors);
+
+        this.setState({ web3Errors: {
+                ...this.state.web3Errors,
+                signatureError: false,
+            },
+        });
+
+        // console.log("\n\nhandleOutside web3error:", web3error);
+        // console.log("AFTER handleOutside web3Errors:", this.state.web3Errors);
+    };
+
     render() {
         return(
             <Layout {...this.state.web3Errors}>
-                <SignatureError {...this.state.web3Errors.missingMetaMask}/>
+                {/* <SignatureError {...this.state.web3Errors}/> */}
+                <Dimmer page active={this.state.web3Errors.signatureError} onClickOutside={this.handleOutside}>                    
+
+                    <Header as='h2' icon inverted>
+                        <Icon name='heart' />
+                        {/* Dimmed Message! --> {this.state.web3Errors.missingMetaMask.toString()} */}
+                        Metamask required. --> {(this.state.web3Errors.signatureError === true).toString()}
+                        <Header.Subheader>Without a metamask connection, website may not function as expected.</Header.Subheader>
+                    </Header>
+
+                    <Button onClick={getConnection} fluid negative content="Metamask connection" >
+                        <Image avatar src="../static/metamask.png"></Image>
+                        Request Metamask connection
+                    </Button>
+                </Dimmer>
+
+
                 {/* <div style={{ visibility: !this.state.web3Errors.missingMetaMask ? 'visible': 'hidden'}}>test {this.state.web3Errors.missingMetaMask.toString()}
                     {!this.state.web3Errors.missingMetaMask ? null : (
                         <div>
