@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { Menu, Image, Button } from 'semantic-ui-react';
 import { Link, Router } from '../routes';
+import { web3, getConnection, getMetamask } from '../ethereum/web3.js';
 
-let web3
+
 class Header extends Component {
     state = {
 
     };
 
     handleConnect = () => {
-
+        // web3;
+        getMetamask();
+        getConnection();
+        // Router.push('/campaigns/new')
     };
 
     render() {
@@ -28,24 +32,16 @@ class Header extends Component {
 
                 <Menu.Menu position="right">
 
-                    {/* <Menu.Item> */}
-                        <Link route="/">
-                            <a className="item">Home</a>
-                        </Link>
-                    {/* </Menu.Item> */}
+                    <Link route="/" replace>
+                        <a className="item">Home</a>
+                    </Link>
 
-                    {/* <Menu.Item> */}
-                        { <Link route="/campaigns/new" replace>
-                            <a className="item">+</a>
-                        </Link> }
-                     {/* </Menu.Item> */}
-                    
-                    {/* <Menu.Item as="a" onClick={() => Router.push('/campaigns/new')}>+
-                         <Button color="black" onClick={() => Router.push('/campaigns/new')}>+</Button> 
-                    </Menu.Item> */}
+                    { <Link route="/campaigns/new" replace>
+                        <a className="item">+</a>
+                    </Link> }
 
                     <Menu.Item>
-                        <Button color="black" onClick={() => Router.push('/campaigns/new')}>Connect Metamask</Button>
+                        <Button color="black" onClick={this.handleConnect}>Connect Metamask</Button>
                     </Menu.Item>
 
                 </Menu.Menu>

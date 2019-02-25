@@ -1,48 +1,59 @@
 import React, {Component} from 'react';
-import { instance, web3Errors } from '../ethereum/factory.js';
+import { instance } from '../ethereum/factory.js';
 import Campaign from '../ethereum/campaign.js';
 import { Card, Button, Popup, Image, Dimmer, Header, Icon } from 'semantic-ui-react';
 import Layout from '../components/Layout.js';
 import { Link } from '../routes';
-import { getConnection } from "../ethereum/web3.js";
+import { getConnection, getMetamask, web3Errors } from "../ethereum/web3.js";
 import SignatureError from '../components/SignatureError.js';
 
 
 class CampaignIndex extends Component {
     state = {
-        web3Errors : web3Errors,
-        loading: false
+        web3Errors : {},
+        loading: false,
+        outsideClickView : false
     };
 
     static async getInitialProps() {
 
-        const campaigns = await instance.methods.getDeployedCampaigns().call();
-        const campaign_names = [];
-        const campaign_descriptions = [];
-        // const j = campaigns.length;
+        if (instance !== "null")
+        {
+            const campaigns = await instance.methods.getDeployedCampaigns().call();
+            const campaign_names = [];
+            const campaign_descriptions = [];
+            // const j = campaigns.length;
+    
+            let single_campaign;
+            let name;
+            let description;
+    
+            for( let i = 0; i < campaigns.length; i++) {
+                single_campaign = await Campaign(campaigns[i]);
+                name = await single_campaign.methods.campaignName().call();
+                description = await single_campaign.methods.campaignDescription().call();
+    
+                campaign_names.push(name);
+                campaign_descriptions.push(description);
+                // console.log(`Name at index ${i} is ${name}`);
+            }
+    
+            console.log("\n\nPAGES/LANDING web3Errors:", web3Errors);
 
-        let single_campaign;
-        let name;
-        let description;
-
-        for( let i = 0; i < campaigns.length; i++) {
-            single_campaign = await Campaign(campaigns[i]);
-            name = await single_campaign.methods.campaignName().call();
-            description = await single_campaign.methods.campaignDescription().call();
-
-            campaign_names.push(name);
-            campaign_descriptions.push(description);
-            // console.log(`Name at index ${i} is ${name}`);
+            // this.setState({ web3Errors: web3Errors });
+    
+            return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions, web3Errors:web3Errors };
+        } else {
+            console.log("\n\nPAGES/LANDING else");
+            return {};
         }
-
-        console.log("\n\nPAGES/LANDING web3Errors:", web3Errors);
-
-        return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions };
     }
 
     renderCampaigns = () => {
 
-        console.log("\n\nrenderCampaigns:", web3Errors);
+        console.log("\n\nrenderCampaigns web3Errors:", web3Errors);
+        console.log("renderCampaigns this.props.web3Errors:", this.props.web3Errors);
+        console.log("renderCampaigns this.state.web3Errors:", this.state.web3Errors);
         // let name;
         // (async() => {
         //     let single_campaign = await Campaign(address);
@@ -58,6 +69,7 @@ class CampaignIndex extends Component {
         // console.log("\n\nNAME:", name);
         // console.log("\ncampaigns ___ 666:", this.props.campaigns);
         // console.log("\ncampaign_names ___ 666:", this.props.campaign_names);
+
 
         // if(this.state.web3Errors.missingMetaMask === false && this.state.web3Errors.signatureError == false)
         // {
@@ -85,14 +97,12 @@ class CampaignIndex extends Component {
         // {
         //     return(
         //         <Dimmer page active={this.state.web3Errors.signatureError} onClickOutside={this.handleOutside}>                    
-
         //             <Header as='h2' icon inverted>
         //                 <Icon name='heart' />
         //                 {/* Dimmed Message! --> {this.state.web3Errors.missingMetaMask.toString()} */}
         //                 Metamask required. --> {(this.state.web3Errors.signatureError === true).toString()}
         //                 <Header.Subheader>Without a metamask connection, website may not function as expected.</Header.Subheader>
         //             </Header>
-
         //             <Button onClick={getConnection} fluid negative content="Metamask connection" >
         //                 <Image avatar src="../static/metamask.png"></Image>
         //                 Request Metamask connection
@@ -133,11 +143,11 @@ class CampaignIndex extends Component {
         // await getConnection();
         // console.log("\n\nBEFORE handleOutside web3Errors:", this.state.web3Errors);
 
-        this.setState({ web3Errors: {
-                ...this.state.web3Errors,
-                signatureError: false,
-            },
-        });
+        // this.setState({ web3Errors: {
+        //         ...this.state.web3Errors,
+        //         signatureError: false,
+        //     },
+        // });
 
         // console.log("\n\nhandleOutside web3error:", web3error);
         // console.log("AFTER handleOutside web3Errors:", this.state.web3Errors);
@@ -169,7 +179,7 @@ class CampaignIndex extends Component {
                             <Popup
                                 // on="click"
                                 // open={"false"}
-                                hidden={!this.state.web3Errors.missingMetaMask}
+                                // hidden={!this.state.web3Errors.missingMetaMask}
                                 header="Metamask"
                                 size="small" 
                                 content="Metamask is required to access the Ethereum network." 
