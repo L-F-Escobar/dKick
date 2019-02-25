@@ -23,7 +23,7 @@ class SignatureError extends Component {
 
     determineActive =  () => {
 
-        return web3Errors.missingMetaMask;
+        return web3Errors.signatureError;
     }
 
     render() {

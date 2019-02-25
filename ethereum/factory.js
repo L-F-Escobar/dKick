@@ -4,17 +4,12 @@ import CampaignFactoryAddress from './build/CampaignFactoryAddress.json'
 
 // console.log('CampaignFactoryAddress:', CampaignFactoryAddress['address']);
 console.log('factory - web3Errors:', web3Errors);
+console.log('factory - web3:', web3);
 
-// if(web3) {
-//     console.log("web3_666:", web3);
-// } else {
-//     console.log(`INFURIA IN FACTORY`);
-// }
-
-const factoryInstance = new web3.eth.Contract( JSON.parse(CampaignFactory.interface), CampaignFactoryAddress['address']);
+const instance = new web3.eth.Contract( JSON.parse(CampaignFactory.interface), CampaignFactoryAddress['address']);
 
 // export default instance;
 export {
-    factoryInstance,
+    instance,
     web3Errors
 };
