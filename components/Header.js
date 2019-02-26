@@ -40,9 +40,9 @@ class Header extends Component {
                         <a className="item">+</a>
                     </Link> }
 
-                    <Menu.Item>
+                    {/* <Menu.Item>
                         <Button color="black" onClick={this.handleConnect}>Connect Metamask</Button>
-                    </Menu.Item>
+                    </Menu.Item> */}
 
                 </Menu.Menu>
             </Menu>

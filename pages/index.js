@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import { instance } from '../ethereum/factory.js';
+import { instance, web3Errors } from '../ethereum/factory.js';
 import Campaign from '../ethereum/campaign.js';
 import { Card, Button, Popup, Image, Dimmer, Header, Icon } from 'semantic-ui-react';
 import Layout from '../components/Layout.js';
 import { Link } from '../routes';
-import { getConnection, getMetamask, web3Errors } from "../ethereum/web3.js";
+import { getConnection, getMetamask } from "../ethereum/web3.js";
 import SignatureError from '../components/SignatureError.js';
 
 
@@ -39,8 +39,6 @@ class CampaignIndex extends Component {
             }
     
             console.log("\n\nPAGES/LANDING web3Errors:", web3Errors);
-
-            // this.setState({ web3Errors: web3Errors });
     
             return { campaigns: campaigns, campaign_names: campaign_names, campaign_descriptions: campaign_descriptions, web3Errors:web3Errors };
         } else {
@@ -54,62 +52,6 @@ class CampaignIndex extends Component {
         console.log("\n\nrenderCampaigns web3Errors:", web3Errors);
         console.log("renderCampaigns this.props.web3Errors:", this.props.web3Errors);
         console.log("renderCampaigns this.state.web3Errors:", this.state.web3Errors);
-        // let name;
-        // (async() => {
-        //     let single_campaign = await Campaign(address);
-        //     name = await single_campaign.methods.campaignName().call();
-        //     console.log("\n\nNAME INSUDE:", name);
-        // })();
-        // console.log("\n\nNAME OUTSIDE:", name);
-        // let single_campaign = Campaign(address);
-        // let name = single_campaign.methods.campaignName().call().then( (name) => {
-        //     console.log('name in function: ', name)
-        //     return name;
-        // });
-        // console.log("\n\nNAME:", name);
-        // console.log("\ncampaigns ___ 666:", this.props.campaigns);
-        // console.log("\ncampaign_names ___ 666:", this.props.campaign_names);
-
-
-        // if(this.state.web3Errors.missingMetaMask === false && this.state.web3Errors.signatureError == false)
-        // {
-        //     // pass a function into map() that exectures once per element in the array
-        //     const items = this.props.campaigns.map( (address, index) => {
-        //         // console.log("\n\nindex:", index);
-        //         return {
-        //             header: this.props.campaign_names[index],
-        //             meta: address,
-        //             description: 
-        //             (
-        //                 <div>
-        //                     <p align="center" style={{ marginTop: 10, fontSize: 15 }}>{this.props.campaign_descriptions[index]}</p>
-        //                     <Link route={`/campaigns/${address}`}>                    
-        //                         <a>View Campaign</a>
-        //                     </Link>  
-        //                 </div> 
-        //             ),
-        //             fluid: true
-        //         };
-        //     });
-        //     return <Card.Group items={items} />;
-        // } 
-        // else 
-        // {
-        //     return(
-        //         <Dimmer page active={this.state.web3Errors.signatureError} onClickOutside={this.handleOutside}>                    
-        //             <Header as='h2' icon inverted>
-        //                 <Icon name='heart' />
-        //                 {/* Dimmed Message! --> {this.state.web3Errors.missingMetaMask.toString()} */}
-        //                 Metamask required. --> {(this.state.web3Errors.signatureError === true).toString()}
-        //                 <Header.Subheader>Without a metamask connection, website may not function as expected.</Header.Subheader>
-        //             </Header>
-        //             <Button onClick={getConnection} fluid negative content="Metamask connection" >
-        //                 <Image avatar src="../static/metamask.png"></Image>
-        //                 Request Metamask connection
-        //             </Button>
-        //         </Dimmer>
-        //     );
-        // }
 
 
         // pass a function into map() that exectures once per element in the array
@@ -138,25 +80,14 @@ class CampaignIndex extends Component {
 
 
     handleOutside = () => {
-        // let web3error = {...this.state.web3Errors};
-        // web3error['signatureError'] = false;
-        // await getConnection();
-        // console.log("\n\nBEFORE handleOutside web3Errors:", this.state.web3Errors);
-
-        // this.setState({ web3Errors: {
-        //         ...this.state.web3Errors,
-        //         signatureError: false,
-        //     },
-        // });
-
-        // console.log("\n\nhandleOutside web3error:", web3error);
-        // console.log("AFTER handleOutside web3Errors:", this.state.web3Errors);
+        let boolHolder = this.state.outsideClickView;
+        this.setState({ outsideClickView: !boolHolder });
     };
 
     render() {
         return(
-            <Layout {...this.state.web3Errors}>
-                {/* <SignatureError {...this.state.web3Errors}/> */}
+            <Layout>
+            {/* <Layout {...this.state.web3Errors}> */}
                 
                 {/* <Dimmer page active={this.state.web3Errors.signatureError} onClickOutside={this.handleOutside}>                    
                     <Header as='h2' icon inverted>
@@ -171,9 +102,9 @@ class CampaignIndex extends Component {
                     </Button>
                 </Dimmer> */}
 
-
-                {/* <div style={{ visibility: !this.state.web3Errors.missingMetaMask ? 'visible': 'hidden'}}>test {this.state.web3Errors.missingMetaMask.toString()}
-                    {!this.state.web3Errors.missingMetaMask ? null : (
+                <div>
+                {/* <div style={{ visibility: web3Errors.missingMetaMask ? 'visible': 'hidden'}}>test {web3Errors.missingMetaMask.toString()} */}
+                    {!web3Errors.missingMetaMask ? null : (
                         <div>
                             <h3 align="center">Metamask required! Website may not function as intended.</h3>
                             <Popup
@@ -199,10 +130,10 @@ class CampaignIndex extends Component {
                             </Popup>
                         </div>
                     )}
-                </div> */}
+                </div>
 
-                {/* <div>
-                    {!this.state.web3Errors.signatureError ? null : (
+                <div>
+                    {!web3Errors.signatureError ? null : (
                         <div>
                             <h3 align="center">Metamask connection required!</h3>
                             <Popup
@@ -223,7 +154,7 @@ class CampaignIndex extends Component {
                         </div>
                     )} 
                 </div>
-                <div style={{ marginTop: '50px' }}></div> */}
+                <div style={{ marginTop: '50px' }}></div>
 
                 <div>
                     {/* <h2>Web3 missingMetaMask --> {this.state.web3Errors.missingMetaMask.toString()}</h2>

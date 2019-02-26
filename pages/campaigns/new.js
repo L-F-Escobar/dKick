@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Layout from '../../components/Layout.js'
 import { Form, Button, Input, Message } from 'semantic-ui-react';
-import factory from '../../ethereum/factory.js'; 
-import web3 from '../../ethereum/web3.js';
+import { instance } from '../../ethereum/factory.js'; 
+import { web3 } from '../../ethereum/web3.js';
 import { Router } from '../../routes';
 
 class CampaignNew extends Component {
@@ -82,19 +82,22 @@ class CampaignNew extends Component {
 
             try {
                 const accounts = await web3.eth.getAccounts();
-                await factory.methods.createCampaign(this.state.minimumContribution, this.state.name, this.state.description)
+                await instance.methods.createCampaign(this.state.minimumContribution, this.state.name, this.state.description)
                         .send({ from: accounts[0] });
                 Router.pushRoute('/');
             } catch (err) { 
+                console.log("\n\nIN ERROR -->", err.message);
+
                 if(err.message !== `No "from" address specified in neither the given options, nor the default options.`)
                 {
                     this.setState({ errorMessage: err.message, hidden: false });
+                } else if (err.message === `Cannot read property 'eth' of undefined`) {
+                    this.setState({ errorMessage: "Metamask connection required.", hidden: false });
                 } else {
-                    this.setState({ errorMessage: "Must install MetaMask extension.", hidden: false });
+                    this.setState({ errorMessage: "Metamask action required. Navigate to home.", hidden: false });
                 }
                 
             }
-
         } else {
             this.setState({ hidden: false });
         }

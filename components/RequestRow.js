@@ -27,7 +27,7 @@ class RequestRow extends Component {
         }
 
         this.setState({ loadingApprove: false });
-        Router.replaceRoute(`/campaigns/${this.props.address}/requests`);
+        Router.pushRoute(`/campaigns/${this.props.address}/requests`);
     };
 
     onFinalize = async () => {
@@ -43,7 +43,7 @@ class RequestRow extends Component {
             this.setState({ errorMessage: err.message, finalizeError: true});
         }
         this.setState({ loadingFinalize: false });
-        Router.replaceRoute(`/campaigns/${this.props.address}/requests`);
+        Router.pushRoute(`/campaigns/${this.props.address}/requests`);
     };
 
     render() {
